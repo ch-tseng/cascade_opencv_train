@@ -6,17 +6,26 @@ from xml.dom import minidom
 from os.path import basename
 from keras.preprocessing.image import ImageDataGenerator, array_to_img, img_to_array, load_img
 
-xmlFolder = "H:\\working\\cascade_indoor_face\\voc_dataset\\labels"
-imgFolder = "H:\\working\\cascade_indoor_face\\voc_dataset\\images"
-labelName = "face"
-saveROIsPath = "H:\\working\\cascade_indoor_face\\cascade_training\\positives"
-negOutput = "H:\\working\\cascade_indoor_face\\cascade_training\\neg_bg"
-outputSize = (80, 80)
+#標記檔的path
+xmlFolder = "H:/working/cascade_cat_face/voc_dataset/labels"
+#圖片檔的path
+imgFolder = "H:/working/cascade_cat_face/voc_dataset/images"
+#要取出的標記名稱(class name)
+labelName = "catface"
+#專案目錄，所有產生的檔案或目錄皆會存於此
+projFolder = "H:/working/cascade_cat_face/cascade_training"
+#訓練的圖片大小(建議不要太大)
+outputSize = (60, 60)
+#產生的訓練圖片類型
 imageKeepType = "jpg"
+#去除標記區域的圖片，是否要作為negative圖片？
 generateNegativeSource = True
-positiveDesc_file = os.path.join(saveROIsPath, "positives.info")
 
 #-------------------------------------------------------
+saveROIsPath = os.path.join(projFolder, "positives")
+positiveDesc_file = os.path.join(projFolder, "positives.info")
+negOutput = os.path.join(projFolder, "neg_bg")
+
 totalLabels = 0
 wLabels = 0
 hLabels = 0
@@ -157,6 +166,6 @@ with open(positiveDesc_file, 'a') as the_file:
             img = cv2.imread(saveROIsPath + "/" + file)
             sizeimg = img.shape
             #the_file.write( os.path.join(saveROIsPath ,file) + '  1  0 0 ' + str(sizeimg[1]) + ' ' + str(sizeimg[0]) + '\n')
-            the_file.write( file + '  1  0 0 ' + str(sizeimg[1]) + ' ' + str(sizeimg[0]) + '\n')
+            the_file.write( 'positives/'+file + '  1  0 0 ' + str(sizeimg[1]) + ' ' + str(sizeimg[0]) + '\n')
 
 the_file.close()

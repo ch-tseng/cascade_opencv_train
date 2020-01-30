@@ -5,21 +5,28 @@ import cv2
 from os.path import basename
 from keras.preprocessing.image import ImageDataGenerator, array_to_img, img_to_array, load_img
 
-imgFolder = "H:\\working\\cascade_indoor_face\\cascade_training\\positives"
-outputSize = (80, 80)
-outputFolder = "H:\\working\\cascade_indoor_face\\cascade_training\\aug_positives"
+#專案目錄，所有產生的檔案或目錄皆會存於此
+projFolder = "H:/working/cascade_cat_face/cascade_training"
+#產生的正向圖片大小
+outputSize = (60, 60)
+#產生的圖片格式
 imageKeepType = "jpg"
-numAugment = 5  #create how many images for 1 image?
+#每一個正向圖片要產生出幾張新圖片?
+numAugment = 6
 
+#Augmentation的設定
 aug_whitening = False
-aug_rotation = 45
-aug_w_shift = 0.15
-aug_h_shift = 0.15
-aug_shear = 0.2
+aug_rotation = 16
+aug_w_shift = 0.1
+aug_h_shift = 0.1
+aug_shear = 0.1
 aug_zoom = 0.05
 aug_h_flip = True
 aug_v_flip = False
 aug_fillmode = "nearest"
+
+imgFolder = os.path.join(projFolder, "positives")
+outputFolder = os.path.join(projFolder, "aug_positives")
 
 def augImage(img_file):
 

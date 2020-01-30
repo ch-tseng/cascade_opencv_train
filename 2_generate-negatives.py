@@ -6,17 +6,24 @@ import cv2
 import numpy as np
 import imutils
 
+#專案目錄，所有產生的檔案或目錄皆會存於此
+projFolder = "H:/working/cascade_cat_face/cascade_training"
+#sliding window移動距離
 movePixels = 120
-resizeScale = 0.5
-negSize = (240, 240)
+#sliding window時圖片依次的縮小比例
+resizeScale = 0.25
+#裁切出的圖片大小
+negSize = (60, 60)
+#載切後儲存的圖片格式
 imageKeepType = "jpg"
-negSources = "H:\\working\\cascade_indoor_face\\cascade_training\\neg_bg"
-negativeOutput = "H:\\working\\cascade_indoor_face\\cascade_training\\negatives"
-negative_info = "H:\\working\\cascade_indoor_face\\cascade_training\\negatives.info"
-resize_org_w = 1200  # 0--> keep the same
-
-imagesCount = 6000  #how many negative images you want?
+#neg_bg folder下的圖片要不要先縮小為指定尺寸? 0--> keep the same
+resize_org_w = 0
+#要產生多少負向的圖片?
+imagesCount = 8000
 #-----------------------------------------------------------------------------------------
+negSources = os.path.join(projFolder, "neg_bg")
+negativeOutput = os.path.join(projFolder, "negatives")
+negative_info = os.path.join(projFolder, "negatives.info")
 
 winW = negSize[0]
 winH = negSize[1]
@@ -70,10 +77,12 @@ with open(negative_info, 'w') as the_file:
                     #cv2.imshow("Window", clone)
 
                     if(i < imagesCount):
-                        print("     "+os.path.join(negativeOutput,str(time.time())+str(i)+"."+imageKeepType))
-                        neg_imgname = os.path.join(negativeOutput, str(time.time())+str(i)+"."+imageKeepType)
+                        img_basename = str(time.time())+str(i)+"."+imageKeepType
+                        print("     "+os.path.join(negativeOutput, img_basename))
+                        neg_imgname = os.path.join(negativeOutput, img_basename)
                         cv2.imwrite(neg_imgname, window)
-                        the_file.write( neg_imgname + '\n')
+                        #the_file.write( neg_imgname + '\n')
+                        the_file.write('negatives/'+img_basename+ '\n')
 
                         i += 1
                         print("     #{} negative image saved.".format(i))
